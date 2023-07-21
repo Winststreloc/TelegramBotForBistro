@@ -11,12 +11,12 @@ public class ChoiceProductCommand : BaseCommand
 {
     private readonly TelegramBotClient _botClient;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IOperationService _operationService;
+    private readonly IKeyboardService _keyboardService;
 
-    public ChoiceProductCommand(TelegramBotService telegramBot, ICategoryRepository categoryRepository, IOperationService operationService)
+    public ChoiceProductCommand(TelegramBotService telegramBot, ICategoryRepository categoryRepository, IKeyboardService keyboardService)
     {
         _categoryRepository = categoryRepository;
-        _operationService = operationService;
+        _keyboardService = keyboardService;
         _botClient = telegramBot.GetBot().Result;
     }
 
@@ -25,7 +25,7 @@ public class ChoiceProductCommand : BaseCommand
     public override async Task ExecuteAsync(Update update)
     {
         var categories = await _categoryRepository.GetAllCategoryNames();
-        var keyboard = _operationService.CreateKeyboardButtonsInThirdColumns(categories);
+        var keyboard = _keyboardService.CreateKeyboardButtonsInThirdColumns(categories);
         const string message = "Для добавления нового списания выберите категорию товара \n";
         var inlineKeyboard = new ReplyKeyboardMarkup(keyboard);
         inlineKeyboard.ResizeKeyboard = true;

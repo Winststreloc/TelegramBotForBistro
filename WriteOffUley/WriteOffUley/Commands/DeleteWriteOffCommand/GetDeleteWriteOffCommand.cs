@@ -10,18 +10,18 @@ namespace WriteOffUley.Commands.DeleteWriteOffCommand;
 public class GetDeleteWriteOffCommand : BaseCommand
 {
     private readonly TelegramBotClient _botClient;
-    private readonly IWriteOffRepository _writeOffRepository;
+    private readonly IOperationRepository _operationRepository;
 
-    public GetDeleteWriteOffCommand(IWriteOffRepository writeOffRepository, TelegramBotService botService)
+    public GetDeleteWriteOffCommand(IOperationRepository operationRepository, TelegramBotService botService)
     {
-        _writeOffRepository = writeOffRepository;
+        _operationRepository = operationRepository;
         _botClient = botService.GetBot().Result;
     }
 
     public override string Name => CommandNames.GetDeleteWriteOffCommand;
     public override async Task ExecuteAsync(Update update)
     {
-        var writeOffs = await _writeOffRepository.GetAllWriteOffDay();
+        var writeOffs = await _operationRepository.GetOperationsAllDay();
         var inlineKeyboardButtons = writeOffs.Select(p => new InlineKeyboardButton
         {
             Text = $"{p.Name} {p.Count}",

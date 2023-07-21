@@ -7,6 +7,7 @@ using WriteOffUley.Commands.OpenWriteOffDay;
 using WriteOffUley.Interfaces;
 using WriteOffUley.Repository;
 using WriteOffUley.Service;
+using KeyboardService = WriteOffUley.Service.KeyboardService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 }, ServiceLifetime.Singleton);
 builder.Services.AddSingleton<TelegramBotService>();
 builder.Services.AddSingleton<ICommandExecutor, CommandExecutor>();
-builder.Services.AddSingleton<IOperationService, OperationService>();
-builder.Services.AddSingleton<IUserService, UserService>();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
+
 builder.Services.AddSingleton<BaseCommand, StartCommand>();
 builder.Services.AddSingleton<BaseCommand, GetDeleteWriteOffCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectDeleteWriteOffCommand>();
@@ -35,10 +34,15 @@ builder.Services.AddSingleton<BaseCommand, SelectCategoryCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectCountProductsCommand>();
 builder.Services.AddSingleton<BaseCommand, OpenWriteOffDayCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectAnalyticsCommand>();
-builder.Services.AddSingleton<IFinishedCommand, FinishOperationCommand>();
-builder.Services.AddSingleton<IWriteOffRepository, WriteOffRepository>();
+builder.Services.AddSingleton<IFinishedOperationCommand, FinishOperationCommand>();
+
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
+builder.Services.AddSingleton<IKeyboardService, KeyboardService>();
+builder.Services.AddSingleton<IOperationRepository, OperationRepository>();
+builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
+
 
 var app = builder.Build();
 

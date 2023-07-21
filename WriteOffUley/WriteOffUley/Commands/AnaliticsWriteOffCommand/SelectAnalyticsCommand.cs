@@ -28,13 +28,13 @@ public class SelectAnalyticsCommand : BaseCommand
             new [] 
             {
                 new InlineKeyboardButton{Text = "Списания за 1", CallbackData = "analytic-1"},          
-                new InlineKeyboardButton{Text = "Списания за 7", CallbackData = "analytic-7"},                                                                
-                new InlineKeyboardButton{Text = "Списания за 14", CallbackData = "analytic-14"},
+                new InlineKeyboardButton{Text = "Списания за 3", CallbackData = "analytic-3"},                                                                
+                new InlineKeyboardButton{Text = "Списания за 7", CallbackData = "analytic-7"},
             },
             new [] 
             {
-                new InlineKeyboardButton{Text = "Списания за 30", CallbackData = "analytic-30"},          
-                new InlineKeyboardButton{Text = "Списания за 90", CallbackData = "analytic-90"},                                                                
+                new InlineKeyboardButton{Text = "Списания за 14", CallbackData = "analytic-14"},          
+                new InlineKeyboardButton{Text = "Списания за 30", CallbackData = "analytic-30"},                                                                
                 new InlineKeyboardButton{Text = "Списания за 365", CallbackData = "analytic-365"},
             }
         });

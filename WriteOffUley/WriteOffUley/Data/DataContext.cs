@@ -15,15 +15,16 @@ public class DataContext : DbContext
     
     public DbSet<SemiFinishedProducts> SemiFinishedProducts { get; set; }
     public DbSet<Product?> Products { get; set; }
-    public DbSet<ProductSemiFinshedProduct> ProductSemiFinshedProducts { get; set; }
+    public DbSet<ProductSemiFinshedProduct> ProductSemiFinishedProducts { get; set; }
+    public DbSet<StorageRecord> Storage { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ProductSemiFinshedProduct>()
-            .HasKey(psfp => new {psfp.ProudctId, psfp.SemiFinishedProductId});
+            .HasKey(psfp => new { ProudctId = psfp.ProductId, psfp.SemiFinishedProductId});
         modelBuilder.Entity<ProductSemiFinshedProduct>()
             .HasOne(p => p.Product)
             .WithMany(psfp => psfp.ProductSemiFinshedProducts)
-            .HasForeignKey(p => p.ProudctId);
+            .HasForeignKey(p => p.ProductId);
         modelBuilder.Entity<ProductSemiFinshedProduct>()
             .HasOne(p => p.SemiFinishedProducts)
             .WithMany(psfp => psfp.ProductSemiFinshedProducts)

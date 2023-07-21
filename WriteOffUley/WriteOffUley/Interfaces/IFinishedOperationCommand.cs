@@ -3,7 +3,7 @@ using WriteOffUley.Entity;
 
 namespace WriteOffUley.Interfaces;
 
-public interface IFinishedCommand
+public interface IFinishedOperationCommand
 {
     Task Execute(Update update, WriteOffProduct product);
 }

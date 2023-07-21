@@ -6,12 +6,12 @@ namespace WriteOffUley.Service;
 public class AnalyticsService : IAnalyticsService
 {
     private readonly IUserService _userService;
-    private readonly IOperationService _operationService;
+    private readonly IKeyboardService _keyboardService;
 
-    public AnalyticsService(IUserService userService, IOperationService operationService)
+    public AnalyticsService(IUserService userService, KeyboardService keyboardService)
     {
         _userService = userService;
-        _operationService = operationService;
+        _keyboardService = keyboardService;
     }
     
     public async Task<string> GetAnalytics(Update update, int days)

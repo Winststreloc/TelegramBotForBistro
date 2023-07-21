@@ -87,9 +87,6 @@ namespace WriteOffUley.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsFinished")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -97,15 +94,10 @@ namespace WriteOffUley.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Operations");
                 });
@@ -125,7 +117,6 @@ namespace WriteOffUley.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -144,17 +135,20 @@ namespace WriteOffUley.Migrations
 
             modelBuilder.Entity("WriteOffUley.Entity.ProductSemiFinshedProduct", b =>
                 {
-                    b.Property<long>("ProudctId")
+                    b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("SemiFinishedProductId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ProudctId", "SemiFinishedProductId");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ProductId", "SemiFinishedProductId");
 
                     b.HasIndex("SemiFinishedProductId");
 
-                    b.ToTable("ProductSemiFinshedProducts");
+                    b.ToTable("ProductSemiFinishedProducts");
                 });
 
             modelBuilder.Entity("WriteOffUley.Entity.SemiFinishedProducts", b =>
@@ -168,25 +162,32 @@ namespace WriteOffUley.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("LiquidOrSolid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.ToTable("SemiFinishedProducts");
                 });
 
-            modelBuilder.Entity("WriteOffUley.Entity.Operation", b =>
+            modelBuilder.Entity("WriteOffUley.Entity.StorageRecord", b =>
                 {
-                    b.HasOne("WriteOffUley.Entity.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Navigation("User");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Storage");
                 });
 
             modelBuilder.Entity("WriteOffUley.Entity.Product", b =>
@@ -204,7 +205,7 @@ namespace WriteOffUley.Migrations
                 {
                     b.HasOne("WriteOffUley.Entity.Product", "Product")
                         .WithMany("ProductSemiFinshedProducts")
-                        .HasForeignKey("ProudctId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -10,12 +10,12 @@ public class SelectDeleteWriteOffCommand : BaseCommand
 {
     private readonly TelegramBotClient _botClient;
     private readonly IUserService _userService;
-    private readonly IOperationService _operationService;
+    private readonly IOperationRepository _operationRepository;
 
-    public SelectDeleteWriteOffCommand(TelegramBotService botClient, IUserService userService, IOperationService operationService)
+    public SelectDeleteWriteOffCommand(TelegramBotService botClient, IUserService userService, IOperationRepository operationRepository)
     {
         _userService = userService;
-        _operationService = operationService;
+        _operationRepository = operationRepository;
         _botClient = botClient.GetBot().Result;
     }
 
@@ -27,7 +27,7 @@ public class SelectDeleteWriteOffCommand : BaseCommand
         if (deleteString != null)
         {
             var delete = long.Parse(deleteString);
-            if (await _operationService.DeleteOperation(delete))
+            if (await _operationRepository.DeleteOperation(delete))
             {
                 await _botClient.SendTextMessageAsync(user.ChatId, "Операция удалена.", ParseMode.Markdown);
             }

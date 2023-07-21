@@ -11,11 +11,11 @@ public class CommandExecutor : ICommandExecutor
     private readonly List<BaseCommand> _commands;
     private BaseCommand _lastCommand;
     private string _productName;
-    private readonly IFinishedCommand _finishedCommand;
+    private readonly IFinishedOperationCommand _finishedOperationCommand;
 
-    public CommandExecutor(IServiceProvider serviceProvider, IFinishedCommand finishedCommand)
+    public CommandExecutor(IServiceProvider serviceProvider, IFinishedOperationCommand finishedOperationCommand)
     {
-        _finishedCommand = finishedCommand;
+        _finishedOperationCommand = finishedOperationCommand;
         _commands = serviceProvider.GetServices<BaseCommand>().ToList();
     }
 
@@ -40,7 +40,11 @@ public class CommandExecutor : ICommandExecutor
                 case "Посмотреть аналитику списаний":
                     await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
                     return;
+                case "Склад":
+                    await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
+                    return;
             }
+            
         }
 
         if (update.Message != null && update.Message.Text.Contains(CommandNames.StartCommand))
@@ -69,7 +73,7 @@ public class CommandExecutor : ICommandExecutor
                     Name = _productName,
                     Count = int.Parse(update.Message.Text)
                 };
-                await _finishedCommand.Execute(update, product);
+                await _finishedOperationCommand.Execute(update, product);
                 break;
             }
             case CommandNames.GetDeleteWriteOffCommand:

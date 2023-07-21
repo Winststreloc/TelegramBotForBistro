@@ -12,4 +12,7 @@ public static class CommandNames
     public const string OpenAllWriteOffDayCommand = "open-all-write-off-day";
     public const string SelectAnalyticsCommand = "get-analytics";
     public const string GetAnalyticsCommand = "get-analytics";
+    public const string GetStorageCommand = "get-storage";
+    public const string AddStorageCommand = "add-storage";
+    public const string DeleteStorageCommand = "delete-storage";
 }

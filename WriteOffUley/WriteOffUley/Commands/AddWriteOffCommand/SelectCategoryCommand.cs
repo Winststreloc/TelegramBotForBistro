@@ -10,13 +10,13 @@ public class SelectCategoryCommand : BaseCommand
 {
     private readonly TelegramBotClient _botClient;
     private readonly IProductRepository _productRepository;
-    private readonly IOperationService _operationService;
+    private readonly IKeyboardService _keyboardService;
 
     public SelectCategoryCommand(TelegramBotService telegramBot,
-        IProductRepository productRepository, IOperationService operationService)
+        IProductRepository productRepository, IKeyboardService keyboardService)
     {
         _productRepository = productRepository;
-        _operationService = operationService;
+        _keyboardService = keyboardService;
         _botClient = telegramBot.GetBot().Result;
     }
 
@@ -28,7 +28,7 @@ public class SelectCategoryCommand : BaseCommand
         var list = await _productRepository.GetProductNameByCategoryName(message.Text);
         if (list.Count != 0)
         {
-            var keyboard = _operationService.CreateKeyboardButtonsInThirdColumns(
+            var keyboard = _keyboardService.CreateKeyboardButtonsInThirdColumns(
                 list);
             var inlineKeyboard = new ReplyKeyboardMarkup(keyboard);
             await _botClient.SendTextMessageAsync(update.Message.Chat,
@@ -38,7 +38,7 @@ public class SelectCategoryCommand : BaseCommand
         else
         {
             //_executor.ExecuteCommand(CommandNames.StartCommand, update);
-            var inlineKeyboard = _operationService.GetKeyboardMarkup(update);
+            var inlineKeyboard = _keyboardService.GetKeyboardMarkup(update);
             await _botClient.SendTextMessageAsync(update.Message.Chat,
                 "Эта категория сейчас в разработке", replyMarkup: inlineKeyboard);
         }
