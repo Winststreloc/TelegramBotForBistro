@@ -6,4 +6,6 @@ public class Operation : BaseEntity
     public decimal Price { get; set; }
     public int Count { get; set; }
     public long? UserId { get; set; }
+    public Product? Product { get; set; }
+    public long ProductId { get; set; }
 }

@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using WriteOffUley.Interfaces;
 using WriteOffUley.Service;
 
@@ -11,35 +10,23 @@ public class SelectAnalyticsCommand : BaseCommand
 {
     private readonly TelegramBotClient _telegramBotClient;
     private readonly IUserService _userService;
+    private readonly IAnalyticsService _analyticsService;
 
-    public SelectAnalyticsCommand(TelegramBotService telegramBot, IUserService userService)
+    public SelectAnalyticsCommand(TelegramBotService botClient, IUserService userService, IAnalyticsService analyticsService)
     {
-        _telegramBotClient = telegramBot.GetBot().Result;
         _userService = userService;
+        _analyticsService = analyticsService;
+        _telegramBotClient = botClient.GetBot().Result;
     }
 
     public override string Name => CommandNames.SelectAnalyticsCommand;
     public override async Task ExecuteAsync(Update update)
     {
         var user = await _userService.GetOrCreate(update);
+        var daysString = update.CallbackQuery?.Data?.Replace("analytic-", "") ?? "0";
+        var days = int.Parse(daysString);
 
-        var inlineKeyboard = new InlineKeyboardMarkup(new []
-        {
-            new [] 
-            {
-                new InlineKeyboardButton{Text = "Списания за 1", CallbackData = "analytic-1"},          
-                new InlineKeyboardButton{Text = "Списания за 3", CallbackData = "analytic-3"},                                                                
-                new InlineKeyboardButton{Text = "Списания за 7", CallbackData = "analytic-7"},
-            },
-            new [] 
-            {
-                new InlineKeyboardButton{Text = "Списания за 14", CallbackData = "analytic-14"},          
-                new InlineKeyboardButton{Text = "Списания за 30", CallbackData = "analytic-30"},                                                                
-                new InlineKeyboardButton{Text = "Списания за 365", CallbackData = "analytic-365"},
-            }
-        });
-
-        await _telegramBotClient.SendTextMessageAsync(user.ChatId, "Выберите количество дней за которые нужны списания", 
-            ParseMode.Markdown, replyMarkup:inlineKeyboard);
+        var message = await _analyticsService.GetAnalytics(update, days);
+        await _telegramBotClient.SendTextMessageAsync(user.ChatId, message, ParseMode.Markdown);
     }
 }

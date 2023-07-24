@@ -19,7 +19,7 @@ public class TelegramBotController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Update([FromBody]object update)
     {
-        var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
+        var upd = JsonConvert.DeserializeObject<Update>(update.ToString() ?? string.Empty);
 
         if (upd?.Message?.Chat == null && upd?.CallbackQuery == null)
         {

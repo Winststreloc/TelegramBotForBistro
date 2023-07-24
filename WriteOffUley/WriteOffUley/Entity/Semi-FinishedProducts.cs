@@ -1,8 +1,8 @@
 ﻿namespace WriteOffUley.Entity;
 
-public class SemiFinishedProducts : BaseEntity
+public class SemiFinishedProduct : BaseEntity
 {
     public string Name { get; set; }
     public bool LiquidOrSolid { get; set; }
-    public ICollection<ProductSemiFinshedProduct> ProductSemiFinshedProducts { get; set; }
+    public ICollection<ProductSemiFinishedProduct> ProductSemiFinshedProducts { get; set; }
 }

@@ -33,15 +33,19 @@ builder.Services.AddSingleton<BaseCommand, ChoiceProductCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectCategoryCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectCountProductsCommand>();
 builder.Services.AddSingleton<BaseCommand, OpenWriteOffDayCommand>();
+builder.Services.AddSingleton<BaseCommand, AnalyticsCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectAnalyticsCommand>();
 builder.Services.AddSingleton<IFinishedOperationCommand, FinishOperationCommand>();
 
+builder.Services.AddSingleton<IAnalyticsService, AnalyticsService>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<IKeyboardService, KeyboardService>();
 builder.Services.AddSingleton<IOperationRepository, OperationRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IWriteOffService, WriteOffService>();
+builder.Services.AddSingleton<IWriteOffRepository, WriteOffRepository>();
 
 
 var app = builder.Build();

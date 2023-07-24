@@ -14,7 +14,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("open-all-write-off")]
-    public async Task<IActionResult> OpenAllWriteOff()
+    public async Task<IActionResult?> OpenAllWriteOff()
     {
         return default;
     }

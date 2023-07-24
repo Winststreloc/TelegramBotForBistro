@@ -17,7 +17,7 @@ namespace WriteOffUley.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.19")
+                .HasAnnotation("ProductVersion", "6.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -94,10 +94,15 @@ namespace WriteOffUley.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Operations");
                 });
@@ -133,7 +138,7 @@ namespace WriteOffUley.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WriteOffUley.Entity.ProductSemiFinshedProduct", b =>
+            modelBuilder.Entity("WriteOffUley.Entity.ProductSemiFinishedProduct", b =>
                 {
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
@@ -151,7 +156,7 @@ namespace WriteOffUley.Migrations
                     b.ToTable("ProductSemiFinishedProducts");
                 });
 
-            modelBuilder.Entity("WriteOffUley.Entity.SemiFinishedProducts", b =>
+            modelBuilder.Entity("WriteOffUley.Entity.SemiFinishedProduct", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,6 +195,46 @@ namespace WriteOffUley.Migrations
                     b.ToTable("Storage");
                 });
 
+            modelBuilder.Entity("WriteOffUley.Entity.WriteOffSemiFishedProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("SemiFinishedProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WriteOffSemiFishedProducts");
+                });
+
+            modelBuilder.Entity("WriteOffUley.Entity.Operation", b =>
+                {
+                    b.HasOne("WriteOffUley.Entity.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("WriteOffUley.Entity.Product", b =>
                 {
                     b.HasOne("WriteOffUley.Entity.Category", "Category")
@@ -201,7 +246,7 @@ namespace WriteOffUley.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("WriteOffUley.Entity.ProductSemiFinshedProduct", b =>
+            modelBuilder.Entity("WriteOffUley.Entity.ProductSemiFinishedProduct", b =>
                 {
                     b.HasOne("WriteOffUley.Entity.Product", "Product")
                         .WithMany("ProductSemiFinshedProducts")
@@ -209,7 +254,7 @@ namespace WriteOffUley.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WriteOffUley.Entity.SemiFinishedProducts", "SemiFinishedProducts")
+                    b.HasOne("WriteOffUley.Entity.SemiFinishedProduct", "SemiFinishedProduct")
                         .WithMany("ProductSemiFinshedProducts")
                         .HasForeignKey("SemiFinishedProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -217,7 +262,7 @@ namespace WriteOffUley.Migrations
 
                     b.Navigation("Product");
 
-                    b.Navigation("SemiFinishedProducts");
+                    b.Navigation("SemiFinishedProduct");
                 });
 
             modelBuilder.Entity("WriteOffUley.Entity.Category", b =>
@@ -230,7 +275,7 @@ namespace WriteOffUley.Migrations
                     b.Navigation("ProductSemiFinshedProducts");
                 });
 
-            modelBuilder.Entity("WriteOffUley.Entity.SemiFinishedProducts", b =>
+            modelBuilder.Entity("WriteOffUley.Entity.SemiFinishedProduct", b =>
                 {
                     b.Navigation("ProductSemiFinshedProducts");
                 });

@@ -39,6 +39,12 @@ public class OperationRepository : IOperationRepository
         return a;
     }
 
+    public async Task<List<Operation>> GetOperationsByDay(int day)
+    {
+        var daysAgo = DateTime.Now.AddDays(-day);
+        return await _context.Operations.Where(o => o.CreatedAt >= daysAgo).ToListAsync();
+    }
+
 
     public async Task<bool> AddOperation(WriteOffProduct writeOffProduct, long userId)
     {
@@ -46,7 +52,7 @@ public class OperationRepository : IOperationRepository
         {
             return false;
         }
-
+        
         var product = await _productRepository.GetProductByName(writeOffProduct.Name);
         var operation = new Operation()
         {
@@ -54,18 +60,14 @@ public class OperationRepository : IOperationRepository
             Count = writeOffProduct.Count,
             Price = product.Price * writeOffProduct.Count,
             UserId = userId,
-            CreatedAt = DateTime.Now
+            CreatedAt = DateTime.Now, 
+            ProductId = product.Id
         };
         await _context.Operations.AddAsync(operation);
         var a = await _context.SaveChangesAsync() > 0;
         return a;
     }
-
-    public async Task<bool> DeleteOperation(Operation operation)
-    {
-        _context.Operations.Remove(operation);
-        return await _context.SaveChangesAsync() > 0;
-    }
+    
 
     public async Task<bool> DeleteOperation(long operationId)
     {

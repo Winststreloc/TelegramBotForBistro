@@ -32,13 +32,13 @@ public class CommandExecutor : ICommandExecutor
                     await ExecuteCommand(CommandNames.ChoiceProductCommand, update);
                     return;
                 case "Удалить списание":
-                    await ExecuteCommand(CommandNames.GetDeleteWriteOffCommand, update);
+                    await ExecuteCommand(CommandNames.DeleteWriteOffCommand, update);
                     return;
                 case "Посмотреть списания за день":
                     await ExecuteCommand(CommandNames.OpenAllWriteOffDayCommand, update);
                     return;
                 case "Посмотреть аналитику списаний":
-                    await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
+                    await ExecuteCommand(CommandNames.AnalyticsCommand, update);
                     return;
                 case "Склад":
                     await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
@@ -76,9 +76,14 @@ public class CommandExecutor : ICommandExecutor
                 await _finishedOperationCommand.Execute(update, product);
                 break;
             }
-            case CommandNames.GetDeleteWriteOffCommand:
+            case CommandNames.DeleteWriteOffCommand:
             {
                 await ExecuteCommand(CommandNames.SelectDeleteWriteOffCommand, update);
+                break;
+            }
+            case CommandNames.AnalyticsCommand:
+            {
+                await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
                 break;
             }
             case null:

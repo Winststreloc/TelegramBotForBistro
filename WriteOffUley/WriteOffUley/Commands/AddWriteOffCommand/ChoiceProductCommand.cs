@@ -27,8 +27,10 @@ public class ChoiceProductCommand : BaseCommand
         var categories = await _categoryRepository.GetAllCategoryNames();
         var keyboard = _keyboardService.CreateKeyboardButtonsInThirdColumns(categories);
         const string message = "Для добавления нового списания выберите категорию товара \n";
-        var inlineKeyboard = new ReplyKeyboardMarkup(keyboard);
-        inlineKeyboard.ResizeKeyboard = true;
+        var inlineKeyboard = new ReplyKeyboardMarkup(keyboard)
+        {
+            ResizeKeyboard = true
+        };
 
         await _botClient.SendTextMessageAsync(update.Message.Chat.Id, message, ParseMode.Markdown,
             replyMarkup: inlineKeyboard);

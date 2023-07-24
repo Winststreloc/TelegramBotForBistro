@@ -10,25 +10,27 @@ public class DataContext : DbContext
     }
 
     public DbSet<AppUser> Users { get; set; }
-    public DbSet<Category?> Categories { get; set; }
-    public DbSet<Operation?> Operations { get; set; }
-    
-    public DbSet<SemiFinishedProducts> SemiFinishedProducts { get; set; }
-    public DbSet<Product?> Products { get; set; }
-    public DbSet<ProductSemiFinshedProduct> ProductSemiFinishedProducts { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Operation> Operations { get; set; }
+
+    public DbSet<SemiFinishedProduct> SemiFinishedProducts { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductSemiFinishedProduct> ProductSemiFinishedProducts { get; set; }
     public DbSet<StorageRecord> Storage { get; set; }
+    public DbSet<WriteOffSemiFishedProduct> WriteOffSemiFishedProducts { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ProductSemiFinshedProduct>()
-            .HasKey(psfp => new { ProudctId = psfp.ProductId, psfp.SemiFinishedProductId});
-        modelBuilder.Entity<ProductSemiFinshedProduct>()
+        modelBuilder.Entity<ProductSemiFinishedProduct>()
+            .HasKey(psfp => new { ProudctId = psfp.ProductId, psfp.SemiFinishedProductId });
+        modelBuilder.Entity<ProductSemiFinishedProduct>()
             .HasOne(p => p.Product)
             .WithMany(psfp => psfp.ProductSemiFinshedProducts)
             .HasForeignKey(p => p.ProductId);
-        modelBuilder.Entity<ProductSemiFinshedProduct>()
-            .HasOne(p => p.SemiFinishedProducts)
-            .WithMany(psfp => psfp.ProductSemiFinshedProducts)
-            .HasForeignKey(p => p.SemiFinishedProductId);
+        modelBuilder.Entity<ProductSemiFinishedProduct>()
+            .HasOne(psfp => psfp.SemiFinishedProduct)
+            .WithMany(p => p.ProductSemiFinshedProducts)
+            .HasForeignKey(psfp => psfp.SemiFinishedProductId);
 
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Category)

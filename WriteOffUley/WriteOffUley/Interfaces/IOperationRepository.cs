@@ -8,7 +8,7 @@ public interface IOperationRepository
     Task<Operation?> GetLastOperation();
     Task<List<Operation>> GetAllOperations();
     Task<List<Operation>> GetOperationsAllDay();
+    Task<List<Operation>> GetOperationsByDay(int day);
     Task<bool> AddOperation(WriteOffProduct writeOffProduct, long userId);
-    Task<bool> DeleteOperation(Operation operation);
     Task<bool> DeleteOperation(long operationId);
 }

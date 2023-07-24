@@ -18,7 +18,7 @@ public class GetDeleteWriteOffCommand : BaseCommand
         _botClient = botService.GetBot().Result;
     }
 
-    public override string Name => CommandNames.GetDeleteWriteOffCommand;
+    public override string Name => CommandNames.DeleteWriteOffCommand;
     public override async Task ExecuteAsync(Update update)
     {
         var writeOffs = await _operationRepository.GetOperationsAllDay();
