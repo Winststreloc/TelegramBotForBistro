@@ -9,12 +9,12 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.20" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.20">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.20" />
-        <PackageReference Include="Npgsql" Version="6.0.9" />
+        <PackageReference Include="Npgsql" Version="6.0.8" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="Telegram.Bot" Version="16.0.2" />
         <PackageReference Include="Telegram.Bots.Extensions.Polling" Version="5.9.0" />
