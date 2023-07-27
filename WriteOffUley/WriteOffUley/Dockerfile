@@ -5,7 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["/TelegramBotForBistro/WriteOffUley/WriteOffUley.csproj", "WriteOffUley/"]
+COPY ["WriteOffUley/WriteOffUley/WriteOffUley.csproj", "WriteOffUley/"]
 RUN dotnet restore "WriteOffUley/WriteOffUley.csproj"
 COPY . .
 WORKDIR "/src/WriteOffUley"
