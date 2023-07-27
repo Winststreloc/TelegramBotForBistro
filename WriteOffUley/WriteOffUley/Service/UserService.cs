@@ -47,7 +47,7 @@ public class UserService : IUserService
 
     private async Task MakeAdmin(AppUser user)
     {
-        if (user.Id ==  555)
+        if (user.Id == 399598663)
         {
             user.Admin = true;
             await _context.SaveChangesAsync();

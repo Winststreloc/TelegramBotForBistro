@@ -23,7 +23,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     
-}, ServiceLifetime.Singleton);
+}, ServiceLifetime.Singleton); 
 builder.Services.AddSingleton<TelegramBotService>();
 builder.Services.AddSingleton<ICommandExecutor, CommandExecutor>();
 
