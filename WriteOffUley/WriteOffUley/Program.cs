@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Npgsql;
 using WriteOffUley;
 using WriteOffUley.Commands;
 using WriteOffUley.Commands.AnaliticsWriteOffCommand;
@@ -22,7 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPSSQL"));
-    
+
 }, ServiceLifetime.Singleton); 
 builder.Services.AddSingleton<TelegramBotService>();
 builder.Services.AddSingleton<ICommandExecutor, CommandExecutor>();
@@ -71,4 +72,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.Run();

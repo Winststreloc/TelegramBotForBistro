@@ -28,7 +28,7 @@ public class FinishOperationCommand : IFinishedOperationCommand
         var inlineKeyboard = _keyboardService.GetKeyboardMarkup(update);
         if (await _operationRepository.AddOperation(product, update.Message.Chat.Id))
         {
-            await _writeOffService.CreateWriteOff(product);
+            //await _writeOffService.CreateWriteOff(product);
             await _botClient.SendTextMessageAsync(update.Message.Chat, "Списание добавлено", replyMarkup: inlineKeyboard);
         }
         else
