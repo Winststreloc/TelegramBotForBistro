@@ -21,6 +21,8 @@ public class FinishOperationCommand : IFinishedOperationCommand
         _botClient = botService.GetBot().Result;
     }
     
+    public string Name => CommandNames.FinishOperationCommand;
+    
     public async Task Execute(Update update, WriteOffProduct product)
     {
         var inlineKeyboard = _keyboardService.GetKeyboardMarkup(update);

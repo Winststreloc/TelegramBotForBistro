@@ -40,6 +40,7 @@ public class WriteOffRepository : IWriteOffRepository
 
     public async Task<bool> AddWriteOff(SemiFinishedProduct semiFinishedProduct, int count, decimal quantity)
     {
+        
         await _context.WriteOffSemiFishedProducts.AddAsync(new WriteOffSemiFishedProduct()
         {
             CreatedAt = DateTime.Now,
@@ -47,13 +48,26 @@ public class WriteOffRepository : IWriteOffRepository
             SemiFinishedProductId = semiFinishedProduct.Id,
             Quantity = quantity * count
         });
+        // if (WriteOffExist(semiFinishedProduct))
+        // {
+        //     var writeOffSemiFishedProducts =
+        //         await _context.WriteOffSemiFishedProducts.SingleOrDefaultAsync(product =>
+        //             product.SemiFinishedProductId == semiFinishedProduct.Id);
+        //     if (writeOffSemiFishedProducts != null) writeOffSemiFishedProducts.Quantity += quantity * count;
+        //     await _context.SaveChangesAsync();
+        // }
+        // else
+        // {
+        //     
+        // }
+
         return await _context.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> RemoveWriteOff(SemiFinishedProduct semiFinishedProduct, int count, decimal quantity)
     {
         var writeOff = await _context.WriteOffSemiFishedProducts
-            .Where(wosfp => wosfp.Quantity == count * quantity &&
+            .Where(wosfp => 
                             wosfp.SemiFinishedProductId == semiFinishedProduct.Id &&
                             wosfp.CreatedAt.Day == DateTime.Today.Day).FirstOrDefaultAsync();
         if (writeOff == null)
@@ -61,7 +75,13 @@ public class WriteOffRepository : IWriteOffRepository
             return false;
         }
 
-        _context.WriteOffSemiFishedProducts.Remove(writeOff);
+        _context.Remove(writeOff);
         return await _context.SaveChangesAsync() > 0;
+    }
+
+    public bool WriteOffExist(SemiFinishedProduct semiFinished)
+    {
+        return _context.WriteOffSemiFishedProducts.Any(product =>
+            product.Name == semiFinished.Name && product.SemiFinishedProductId == semiFinished.Id);
     }
 }

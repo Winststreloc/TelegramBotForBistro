@@ -29,10 +29,10 @@ public class SelectDeleteWriteOffCommand : BaseCommand
         if (deleteString != null)
         {
             var operationId = long.Parse(deleteString);
+            await _writeOffService.DeleteWriteOff(operationId);
             if (await _operationRepository.DeleteOperation(operationId))
             {
                 await _botClient.SendTextMessageAsync(user.ChatId, "Операция удалена.", ParseMode.Markdown);
-                await _writeOffService.DeleteWriteOff(operationId);
             }
             else
             {

@@ -28,7 +28,9 @@ public class StartCommand : BaseCommand
         var user = await _userService.GetOrCreate(update);
         var inlineKeyboard = _keyboardService.GetKeyboardMarkup(update);
         await _botClient.SendTextMessageAsync(user.ChatId,
-            "Добро пожаловать! Я буду вести учёт списаний в Uley!",
+            "Добро пожаловать! Я буду вести учёт списаний в Uley! " +
+            "\nЕсли какого-то продукта нет, то вы можете его нажав на кнопку 'Добавить списание', а потом 'Добавить'" +
+            "\nЕсли вы нажали что-то не то - введите команду '/start'",
             replyMarkup: inlineKeyboard);
     }
 }

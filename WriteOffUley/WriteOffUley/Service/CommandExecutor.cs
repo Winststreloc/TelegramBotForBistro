@@ -29,7 +29,7 @@ public class CommandExecutor : ICommandExecutor
             switch (update.Message?.Text)
             {
                 case "Добавить списание":
-                    await ExecuteCommand(CommandNames.ChoiceProductCommand, update);
+                    await ExecuteCommand(CommandNames.SelectCategoryCommand, update);
                     return;
                 case "Удалить списание":
                     await ExecuteCommand(CommandNames.DeleteWriteOffCommand, update);
@@ -55,12 +55,17 @@ public class CommandExecutor : ICommandExecutor
         
         switch (_lastCommand?.Name)
         {
-            case CommandNames.ChoiceProductCommand:
+            case CommandNames.SelectCategoryCommand:
             {
-                await ExecuteCommand(CommandNames.SelectCategoryCommand, update);
+                if (update.Message.Text == CategoryProductNames.AddProduct)
+                {
+                    await ExecuteCommand(CommandNames.CreateNewProduct, update);
+                    break;
+                }
+                await ExecuteCommand(CommandNames.SelectProductCommand, update);
                 break;
             }
-            case CommandNames.SelectCategoryCommand:
+            case CommandNames.SelectProductCommand:
             {
                 _productName = update.Message.Text;
                 await ExecuteCommand(CommandNames.SelectCountProductsCommand, update);

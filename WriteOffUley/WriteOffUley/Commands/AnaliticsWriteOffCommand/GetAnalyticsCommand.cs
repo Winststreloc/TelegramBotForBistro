@@ -28,7 +28,13 @@ public class AnalyticsCommand : BaseCommand
             new [] 
             {
                 new InlineKeyboardButton{Text = "Списания за 1", CallbackData = "analytic-1"},          
-                new InlineKeyboardButton{Text = "Списания за 3", CallbackData = "analytic-3"},                                                                
+                new InlineKeyboardButton{Text = "Списания за 2", CallbackData = "analytic-2"},                                                                
+                new InlineKeyboardButton{Text = "Списания за 3", CallbackData = "analytic-3"},
+            },
+            new [] 
+            {
+                new InlineKeyboardButton{Text = "Списания за 4", CallbackData = "analytic-4"},          
+                new InlineKeyboardButton{Text = "Списания за 5", CallbackData = "analytic-5"},                                                                
                 new InlineKeyboardButton{Text = "Списания за 7", CallbackData = "analytic-7"},
             },
             new [] 

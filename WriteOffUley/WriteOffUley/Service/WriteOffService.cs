@@ -16,6 +16,27 @@ public class WriteOffService : IWriteOffService
         _operationRepository = operationRepository;
     }
 
+    public async Task<List<WriteOffSemiFishedProduct>> CalculateAllWriteOffProductsByDay(int day)
+    {
+        var listWriteOff = await _writeOffRepository.GetAllWriteOffProductsByDay(day);
+        var calcListWriteOffByDay = new Dictionary<string, WriteOffSemiFishedProduct>();
+
+        foreach (var writeOff in listWriteOff)
+        {
+            if (calcListWriteOffByDay.ContainsKey(writeOff.Name))
+            {
+                calcListWriteOffByDay[writeOff.Name].Quantity += writeOff.Quantity;
+            }
+            else
+            {
+                calcListWriteOffByDay.Add(writeOff.Name, writeOff);
+            }
+        }
+
+        return calcListWriteOffByDay.Values.ToList();
+    }
+
+//kom
     public async Task CreateWriteOff(WriteOffProduct writeOffProduct)
     {
         var product = await _productRepository.GetProductByName(writeOffProduct.Name);

@@ -10,4 +10,5 @@ public interface IWriteOffRepository
     Task<SemiFinishedProduct?> GetSemiFinishedProduct(long semiFinishedProductId);
     Task<bool> AddWriteOff(SemiFinishedProduct semiFinishedProduct, int count, decimal quantity);
     Task<bool> RemoveWriteOff(SemiFinishedProduct semiFinishedProduct, int count, decimal quantity);
+    bool WriteOffExist(SemiFinishedProduct semiFinished);
 }

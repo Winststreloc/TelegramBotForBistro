@@ -8,21 +8,23 @@ public class AnalyticsService : IAnalyticsService
 {
     private readonly IUserService _userService;
     private readonly IWriteOffRepository _writeOffRepository;
+    private readonly IWriteOffService _writeOffService;
     private readonly IOperationRepository _operationRepository;
 
 
-    public AnalyticsService(IUserService userService, IWriteOffRepository writeOffRepository, IOperationRepository operationRepository)
+    public AnalyticsService(IUserService userService, IWriteOffRepository writeOffRepository, IOperationRepository operationRepository, IWriteOffService writeOffService)
     {
         _userService = userService;
         _writeOffRepository = writeOffRepository;
         _operationRepository = operationRepository;
+        _writeOffService = writeOffService;
     }
     
     public async Task<string> GetAnalytics(Update update, int days)
     {
         var users = await _userService.GetOrCreate(update);
         var message = new StringBuilder($"Списания за последние {days} дн.: \n");
-        var productSemiFinishedProducts = await _writeOffRepository.GetAllWriteOffProductsByDay(days);
+        var productSemiFinishedProducts = await _writeOffService.CalculateAllWriteOffProductsByDay(days);
         var operations = await _operationRepository.GetOperationsByDay(days);
         var totalSum = operations.Sum(operation => operation.Price);
         foreach (var product in productSemiFinishedProducts)

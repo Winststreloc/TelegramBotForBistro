@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using WriteOffUley.Interfaces;
 using WriteOffUley.Service;
@@ -9,13 +10,12 @@ namespace WriteOffUley.Commands;
 public class SelectCategoryCommand : BaseCommand
 {
     private readonly TelegramBotClient _botClient;
-    private readonly IProductRepository _productRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IKeyboardService _keyboardService;
 
-    public SelectCategoryCommand(TelegramBotService telegramBot,
-        IProductRepository productRepository, IKeyboardService keyboardService)
+    public SelectCategoryCommand(TelegramBotService telegramBot, ICategoryRepository categoryRepository, IKeyboardService keyboardService)
     {
-        _productRepository = productRepository;
+        _categoryRepository = categoryRepository;
         _keyboardService = keyboardService;
         _botClient = telegramBot.GetBot().Result;
     }
@@ -24,23 +24,15 @@ public class SelectCategoryCommand : BaseCommand
 
     public override async Task ExecuteAsync(Update update)
     {
-        var message = update.Message;
-        var list = await _productRepository.GetProductNameByCategoryName(message.Text);
-        if (list.Count != 0)
+        var categories = await _categoryRepository.GetAllCategoryNames();
+        var keyboard = _keyboardService.CreateKeyboardButtonsInThirdColumns(categories);
+        const string message = "Для добавления нового списания выберите категорию товара \n";
+        var inlineKeyboard = new ReplyKeyboardMarkup(keyboard)
         {
-            var keyboard = _keyboardService.CreateKeyboardButtonsInThirdColumns(
-                list);
-            var inlineKeyboard = new ReplyKeyboardMarkup(keyboard);
-            await _botClient.SendTextMessageAsync(update.Message.Chat,
-                "Выберите нужный продукт.",
-                replyMarkup: inlineKeyboard);
-        }
-        else
-        {
-            //_executor.ExecuteCommand(CommandNames.StartCommand, update);
-            var inlineKeyboard = _keyboardService.GetKeyboardMarkup(update);
-            await _botClient.SendTextMessageAsync(update.Message.Chat,
-                "Эта категория сейчас в разработке", replyMarkup: inlineKeyboard);
-        }
+            ResizeKeyboard = true
+        };
+
+        await _botClient.SendTextMessageAsync(update.Message.Chat.Id, message, ParseMode.Markdown,
+            replyMarkup: inlineKeyboard);
     }
 }

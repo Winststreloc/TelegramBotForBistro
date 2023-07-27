@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using WriteOffUley;
 using WriteOffUley.Commands;
 using WriteOffUley.Commands.AnaliticsWriteOffCommand;
+using WriteOffUley.Commands.CreateNewProductForWriteOff;
 using WriteOffUley.Commands.DeleteWriteOffCommand;
 using WriteOffUley.Commands.OpenWriteOffDay;
 using WriteOffUley.Interfaces;
 using WriteOffUley.Repository;
 using WriteOffUley.Service;
-using KeyboardService = WriteOffUley.Service.KeyboardService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +30,13 @@ builder.Services.AddSingleton<ICommandExecutor, CommandExecutor>();
 builder.Services.AddSingleton<BaseCommand, StartCommand>();
 builder.Services.AddSingleton<BaseCommand, GetDeleteWriteOffCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectDeleteWriteOffCommand>();
-builder.Services.AddSingleton<BaseCommand, ChoiceProductCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectCategoryCommand>();
+builder.Services.AddSingleton<BaseCommand, SelectProductCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectCountProductsCommand>();
 builder.Services.AddSingleton<BaseCommand, OpenWriteOffDayCommand>();
 builder.Services.AddSingleton<BaseCommand, AnalyticsCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectAnalyticsCommand>();
+builder.Services.AddSingleton<BaseCommand, CreateNewProduct>();
 builder.Services.AddSingleton<IFinishedOperationCommand, FinishOperationCommand>();
 
 builder.Services.AddSingleton<IAnalyticsService, AnalyticsService>();
@@ -46,6 +48,8 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IWriteOffService, WriteOffService>();
 builder.Services.AddSingleton<IWriteOffRepository, WriteOffRepository>();
+
+
 
 
 var app = builder.Build();
