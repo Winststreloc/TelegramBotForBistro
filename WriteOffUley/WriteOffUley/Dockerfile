@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["WriteOffUley/WriteOffUley/WriteOffUley.csproj", "WriteOffUley/"]
 RUN dotnet restore "WriteOffUley/WriteOffUley.csproj"
 COPY . .
-WORKDIR "/src/WriteOffUley"
+WORKDIR "/src/."
 RUN dotnet build "WriteOffUley.csproj" -c Release -o /app/build
 
 FROM build AS publish
