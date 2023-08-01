@@ -60,7 +60,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.Services.GetRequiredService<TelegramBotService>().GetBot().Wait();
+    //app.Services.GetRequiredService<TelegramBotService>().GetBot().Wait();
 }
 
 app.UseRouting();
