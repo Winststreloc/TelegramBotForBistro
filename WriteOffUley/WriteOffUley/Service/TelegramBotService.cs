@@ -21,7 +21,7 @@ public class TelegramBotService
             
         _botClient = new TelegramBotClient(_configuration["Token"]);
 
-        var hook = $"{_configuration["Url"]}api/message/update";
+        var hook = $"{_configuration["UrlNGROK"]}api/message/update";
         await _botClient.SetWebhookAsync(hook);
 
         return _botClient;
