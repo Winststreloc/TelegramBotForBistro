@@ -30,7 +30,8 @@ public class KeyboardService : IKeyboardService
                 },
                 new[]
                 {
-                    new KeyboardButton("Посмотреть аналитику списаний"),
+                    new KeyboardButton("Посмотреть граммовки списаний"),
+                    new KeyboardButton("Посмотреть списания"),
                     new KeyboardButton("Склад")
                 }
             }, resizeKeyboard: true);
