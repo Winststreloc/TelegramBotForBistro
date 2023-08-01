@@ -5,20 +5,20 @@ using Telegram.Bot.Types.ReplyMarkups;
 using WriteOffUley.Interfaces;
 using WriteOffUley.Service;
 
-namespace WriteOffUley.Commands.AnaliticsWriteOffCommand;
+namespace WriteOffUley.Commands.OpenWriteOffDay;
 
-public class AnalyticsCommand : BaseCommand
+public class SelectWriteOffsCommand : BaseCommand
 {
     private readonly TelegramBotClient _telegramBotClient;
     private readonly IUserService _userService;
 
-    public AnalyticsCommand(TelegramBotService telegramBot, IUserService userService)
+    public SelectWriteOffsCommand(TelegramBotService telegramBotClient, IUserService userService)
     {
-        _telegramBotClient = telegramBot.GetBot().Result;
         _userService = userService;
+        _telegramBotClient = telegramBotClient.GetBot().Result;
     }
 
-    public override string Name => CommandNames.AnalyticsCommand;
+    public override string Name => CommandNames.SelectWriteOffsCommand;
     public override async Task ExecuteAsync(Update update)
     {
         var user = await _userService.GetOrCreate(update);
@@ -45,7 +45,7 @@ public class AnalyticsCommand : BaseCommand
             }
         });
 
-        await _telegramBotClient.SendTextMessageAsync(user.ChatId, "Выберите количество дней за которые нужны граммовки списаний", 
+        await _telegramBotClient.SendTextMessageAsync(user.ChatId, "Выберите количество дней за которые нужны списания", 
             ParseMode.Markdown, replyMarkup:inlineKeyboard);
     }
 }

@@ -37,8 +37,11 @@ public class CommandExecutor : ICommandExecutor
                 case "Посмотреть списания за день":
                     await ExecuteCommand(CommandNames.OpenAllWriteOffDayCommand, update);
                     return;
-                case "Посмотреть аналитику списаний":
+                case "Посмотреть граммовки списаний":
                     await ExecuteCommand(CommandNames.AnalyticsCommand, update);
+                    return;
+                case "Посмотреть списания":
+                    await ExecuteCommand(CommandNames.SelectWriteOffsCommand, update);
                     return;
                 case "Склад":
                     await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
@@ -89,6 +92,11 @@ public class CommandExecutor : ICommandExecutor
             case CommandNames.AnalyticsCommand:
             {
                 await ExecuteCommand(CommandNames.SelectAnalyticsCommand, update);
+                break;
+            }
+            case CommandNames.SelectWriteOffsCommand:
+            {
+                await ExecuteCommand(CommandNames.GetWriteOffsCommand, update);
                 break;
             }
             case null:

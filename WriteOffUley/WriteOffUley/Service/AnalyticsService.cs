@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Telegram.Bot.Types;
+using WriteOffUley.Entity;
 using WriteOffUley.Interfaces;
 
 namespace WriteOffUley.Service;
@@ -7,15 +8,13 @@ namespace WriteOffUley.Service;
 public class AnalyticsService : IAnalyticsService
 {
     private readonly IUserService _userService;
-    private readonly IWriteOffRepository _writeOffRepository;
     private readonly IWriteOffService _writeOffService;
     private readonly IOperationRepository _operationRepository;
 
 
-    public AnalyticsService(IUserService userService, IWriteOffRepository writeOffRepository, IOperationRepository operationRepository, IWriteOffService writeOffService)
+    public AnalyticsService(IUserService userService, IOperationRepository operationRepository, IWriteOffService writeOffService)
     {
         _userService = userService;
-        _writeOffRepository = writeOffRepository;
         _operationRepository = operationRepository;
         _writeOffService = writeOffService;
     }
@@ -35,5 +34,32 @@ public class AnalyticsService : IAnalyticsService
 
         message.AppendLine($"Итоговая сумма списаний: {totalSum} за {days} дней");
         return message.ToString();
+    }
+
+    public async Task<string> GetWriteOffs(Update update, int days)
+    {
+        var users = await _userService.GetOrCreate(update);
+        var message = new StringBuilder($"Списания за последние {days} дн.: \n");
+        var operations = await _operationRepository.GetOperationsByDay(days);
+        var totalSum = operations.Sum(operation => operation.Price);
+        message.AppendLine(await GetOperationsByDayFormatted(operations));
+        message.AppendLine($"Итоговая сумма списаний: {totalSum} за {days} дней");
+        return message.ToString();
+    }
+    
+    public async Task<string> GetOperationsByDayFormatted(List<Operation> operations)
+    {
+        var groupedOperations = operations.GroupBy(o => o.CreatedAt.Date)
+            .Select(g => new
+            {
+                Date = g.Key.ToString("dd.MM"),
+                Operations = string.Join(", ", g.Select(op => op.Name))
+            })
+            .ToList();
+
+        var result = string.Join(Environment.NewLine, groupedOperations.Select(g =>
+            $"{g.Date} {g.Operations}"));
+
+        return result;
     }
 }

@@ -26,7 +26,7 @@ public class OpenWriteOffDayCommand : BaseCommand
         var allRecordsDay = await _operationRepository.GetOperationsAllDay();
         foreach (var record in allRecordsDay)
         {
-            message += record.Name + " |" + record.Count + " |" + record.CreatedAt.ToString("HH:mm") + "\n";
+            message += record.Name + " | " + record.Count + " | " + record.CreatedAt.ToString("HH:mm") + "\n";
             totalSum += record.Price;
         }
 

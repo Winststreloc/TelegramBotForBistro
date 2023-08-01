@@ -38,6 +38,8 @@ builder.Services.AddSingleton<BaseCommand, OpenWriteOffDayCommand>();
 builder.Services.AddSingleton<BaseCommand, AnalyticsCommand>();
 builder.Services.AddSingleton<BaseCommand, SelectAnalyticsCommand>();
 builder.Services.AddSingleton<BaseCommand, CreateNewProduct>();
+builder.Services.AddSingleton<BaseCommand, SelectWriteOffsCommand>();
+builder.Services.AddSingleton<BaseCommand, GetWriteOffsCommand>();
 builder.Services.AddSingleton<IFinishedOperationCommand, FinishOperationCommand>();
 
 builder.Services.AddSingleton<IAnalyticsService, AnalyticsService>();

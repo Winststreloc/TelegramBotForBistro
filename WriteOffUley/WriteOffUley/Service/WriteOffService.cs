@@ -35,8 +35,7 @@ public class WriteOffService : IWriteOffService
 
         return calcListWriteOffByDay.Values.ToList();
     }
-
-//kom
+    
     public async Task CreateWriteOff(WriteOffProduct writeOffProduct)
     {
         var product = await _productRepository.GetProductByName(writeOffProduct.Name);
