@@ -53,7 +53,7 @@ public class AnalyticsService : IAnalyticsService
             .Select(g => new
             {
                 Date = g.Key.ToString("dd.MM"),
-                Operations = string.Join(", ", g.Select(op => op.Name))
+                Operations = string.Join("\n", g.Select(op => op.Name))
             })
             .ToList();
 
