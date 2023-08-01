@@ -34,7 +34,7 @@ public class OperationRepository : IOperationRepository
     public async Task<List<Operation>> GetOperationsAllDay()
     {
         var a = await _context.Operations
-            .Where(o => o.CreatedAt.Day == DateTime.Today.Day)
+            .Where(o => o.CreatedAt.Day == Today.Day)
             .ToListAsync();
         return a;
     }
