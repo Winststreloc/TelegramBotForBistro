@@ -21,6 +21,7 @@ public class TelegramBotController : ControllerBase
     {
         var upd = JsonConvert.DeserializeObject<Update>(update.ToString() ?? string.Empty);
 
+        Console.WriteLine("request enter");
         if (upd?.Message?.Chat == null && upd?.CallbackQuery == null)
         {
             return Ok();
